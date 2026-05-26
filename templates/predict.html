@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow border-0 mb-4">
+            <div class="card-body">
+                <h4 class="card-title text-primary">🧠 AI Course Recommender</h4>
+                <form method="POST" action="/predict">
+                    <input type="hidden" name="form_type" value="course">
+                    <select name="group" class="form-control mb-3" required>
+                        <option value="Maths">Maths/Science</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Commerce">Commerce</option>
+                    </select>
+                    <input type="number" name="marks" class="form-control mb-3" placeholder="12th Marks (%)" required>
+                    <button class="btn btn-primary w-100">Get Recommendations</button>
+                </form>
+            </div>
+        </div>
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h4 class="card-title text-success">🎯 Admission Predictor</h4>
+                <form method="POST" action="/predict">
+                    <input type="hidden" name="form_type" value="admission">
+                    <input type="number" name="marks" class="form-control mb-3" placeholder="Expected Marks (%)" required>
+                    <button class="btn btn-success w-100">Predict Probability</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        {% if results %}
+            <div class="alert alert-info shadow-sm">
+                <h5>Results:</h5>
+                {% if results.type == 'course' %}
+                    <p><strong>Top Match:</strong> {{ results.data[0] }}</p>
+                    <p>Alternatives: {{ results.data[1] }}, {{ results.data[2] }}</p>
+                {% elif results.type == 'admission' %}
+                    <h2>{{ results.data }}%</h2>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="card shadow border-0 mt-4">
+            <div class="card-body text-center">
+                <h5>Student Interest Trends</h5>
+                <canvas id="interestChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    new Chart(document.getElementById('interestChart').getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: ['Tech', 'Health', 'Business', 'Arts'], datasets: [{ data: [45, 25, 20, 10], backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545'] }] }
+    });
+</script>
+{% endblock %}

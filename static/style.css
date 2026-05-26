@@ -1,0 +1,4 @@
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.card { transition: transform 0.2s ease-in-out; border-radius: 12px; }
+.card:hover { transform: translateY(-5px); }
+.badge { white-space: normal; text-align: left; line-height: 1.4; }
